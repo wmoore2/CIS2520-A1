@@ -1,3 +1,9 @@
+/*
+William Moore
+1061752
+wmoore02@uoguelph.ca
+*/
+
 #include"ds_memory.h"
 
 struct ds_file_struct ds_file;

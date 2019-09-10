@@ -1,8 +1,16 @@
-#include "ds_array.h"
+/*
+William Moore
+1061752
+wmoore02@uoguelph.ca
+*/
 
-long elements;
+#include"ds_list.h"
 
-int ds_create_array(){
+void ds_create_list(){
+
+}
+
+int ds_init_list(){
 	return 0;
 }
 
@@ -22,14 +30,14 @@ int ds_swap(long index1, long index2){
 	return 0;
 }
 
-long ds_find(int target){
+int ds_find(int target){
 	return 0;
 }
 
-int ds_read_elements(char *filename){
+int ds_read_elements(char* filename){
 	return 0;
 }
 
-int ds_finish_array(){
+int ds_finish_list(){
 	return 0;
 }

@@ -1,3 +1,9 @@
+/*
+William Moore
+1061752
+wmoore02@uoguelph.ca
+*/
+
 #include<stdio.h>
 #include<stdlib.h>
 
