@@ -10,6 +10,30 @@ struct ds_file_struct ds_file;
 struct ds_counts_struct ds_counts;
 
 int ds_create(char *filename, long size){
+	char buff = '\0';
+	int i;
+	if((ds_file->fp = fopen(filename, wb)) == NULL){
+		/*error check when opening file*/
+		return -1;
+	}
+
+	ds_file->block->start = 0;
+	ds_file->block->length = size;
+	ds_file->block->alloced = 0;
+	/*may have to initialize entire ds_counts array to all 0*/
+
+	if(fwrite(ds_file->block, sizeof(ds_blocks_struct), 1, ds_file->fp) != 1){
+		fclose(ds_file->fp);
+		return -1;
+	}
+
+	for(i = 0; i < size; i++){
+		if(fwrite(&c, sizeof(char), 1, ds_file->fp) != 1){
+			fclose(ds_file->fp);
+			return -1;
+		}
+	}
+
 	return 0;
 }
 
