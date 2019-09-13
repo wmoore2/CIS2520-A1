@@ -3,7 +3,7 @@ William Moore
 1061752
 wmoore02@uoguelph.ca
 */
-
+#include"ds_memory.h"
 #include<stdio.h>
 #include<stdlib.h>
 
