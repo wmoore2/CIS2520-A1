@@ -24,3 +24,5 @@ long ds_find(int target);
 int ds_read_elements(char *filename);
 
 int ds_finish_array();
+
+int ds_read_array(int index, int* ptr);

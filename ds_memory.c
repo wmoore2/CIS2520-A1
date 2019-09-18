@@ -9,17 +9,6 @@ wmoore02@uoguelph.ca
 struct ds_file_struct ds_file = {};
 struct ds_counts_struct ds_counts = {};
 
-int main(){
-	char filename[20] = "bin/testFile.bin";
-	int toWrite = 75;
-	ds_create(filename, 8192);
-	ds_init(filename);
-	ds_malloc(20);
-	ds_write(0, &toWrite, sizeof(int));
-	ds_finish();
-	return 0;
-}
-
 int ds_create(char *filename, long size){
 	/*Used for filling file with null*/
 	char buff = '\0';
