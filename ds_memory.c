@@ -6,8 +6,8 @@ wmoore02@uoguelph.ca
 
 #include"ds_memory.h"
 
-struct ds_file_struct ds_file = {};
-struct ds_counts_struct ds_counts = {};
+struct ds_file_struct ds_file;
+struct ds_counts_struct ds_counts;
 
 int ds_create(char *filename, long size){
 	/*Used for filling file with null*/
@@ -31,7 +31,7 @@ int ds_create(char *filename, long size){
 	}
 
 	/*Write null characters*/
-	for(i = 0; i < size; i++){
+	for(i = 0; i < size + sizeof(struct ds_blocks_struct); i++){
 		if(fwrite(&buff, sizeof(char), 1, fp) != 1){
 			fclose(fp);
 			return -1;
@@ -47,7 +47,7 @@ int ds_init(char *filename){
 	/*Opens file into the global file pointer*/
 	if((ds_file.fp = fopen(filename, "rb+")) == NULL){
 		/*error check when opening file*/
-		return -1;
+		return -2;
 	}
 	/*Reads in the header or table of contents*/
 	if(fread(ds_file.block, sizeof(struct ds_blocks_struct), 1, ds_file.fp) != 1){

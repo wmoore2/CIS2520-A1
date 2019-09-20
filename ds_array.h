@@ -11,6 +11,8 @@ wmoore02@uoguelph.ca
 
 int ds_create_array();
 
+int ds_init_array();
+
 int ds_replace(int value, long index);
 
 int ds_insert(int value, long index);
@@ -25,4 +27,4 @@ int ds_read_elements(char *filename);
 
 int ds_finish_array();
 
-int ds_read_array(int index, int* ptr);
+int ds_read_array(int* ptr, int index);
