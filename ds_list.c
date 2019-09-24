@@ -21,9 +21,6 @@ int main(){
     //ds_read_list(&temp, 0, &pos);
     //printf("Item: %d  Next: %ld  Pos: %ld\n", temp.item, temp.next, ds_malloc(sizeof(long)));
     printf("Read_elements: %d\n", ds_read_elements("bin/temp.txt"));
-    while(1){
-
-    }
     ds_finish_list();
     return 0;
 }
