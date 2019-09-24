@@ -8,23 +8,23 @@ wmoore02@uoguelph.ca
 
 long elements = 0;
 
-int main(){
-	int i = 0, temp = 0;
-	ds_create_array();
-	ds_init_array();
-	ds_read_elements("bin/temp.txt");
-	ds_swap(0, 1);
-	printf("%ld\n", ds_find(7));
-	printf("%d\n", ds_delete(0));
-	for (i = 0; i < elements; ++i) {	
-		printf("%d\n", ds_read_array(&temp, i));
-	}
-	ds_finish_array();
-	return 0;
-}
+// int main(){
+// 	int i = 0, temp = 0;
+// 	ds_create("array.bin", sizeof(int) * MAX_ELEMENTS + sizeof(long));
+// 	ds_create_array();
+// 	ds_init_array();
+// 	ds_read_elements("bin/temp.txt");
+// 	ds_swap(0, 1);
+// 	printf("%ld\n", ds_find(7));
+// 	printf("%d\n", ds_delete(0));
+// 	for (i = 0; i < elements; ++i) {	
+// 		printf("%d\n", ds_read_array(&temp, i));
+// 	}
+// 	ds_finish_array();
+// 	return 0;
+// }
 
 int ds_create_array(){
-	ds_create("array.bin", sizeof(int) * MAX_ELEMENTS + sizeof(long));
 	/*initiates a file of the proper size*/
 	if(ds_init("array.bin") != 0)
 		return -1;
@@ -163,8 +163,8 @@ int ds_finish_array(){
 }
 
 int ds_read_array(int* ptr, int index){
-	/*Reads in from file, returns -1 when something goes wrong*/
+	/*Reads in from file, returns something that isnt *ptr when something goes wrong*/
 	if(*(int*)(ds_read(ptr, index * sizeof(int) + sizeof(long), sizeof(int))) != *ptr)
-		return -1;
+		return !*ptr;
 	return *ptr;
 }

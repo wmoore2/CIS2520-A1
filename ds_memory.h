@@ -39,4 +39,4 @@ long ds_write(long start, void *ptr, long bytes);
 
 int ds_finish();
 
-void seekPos(int pos);
+void seekPos(long pos);

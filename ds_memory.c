@@ -19,19 +19,24 @@ int ds_create(char *filename, long size){
 		return -1;
 	}
 
-	ds_file.block[0].start = 0;
+	for(i = 0; i < MAX_BLOCKS; i++){
+		ds_file.block[i].start = 0;
+		ds_file.block[i].length = 0;
+		ds_file.block[i].alloced = 0;
+	}
+
 	ds_file.block[0].length = size;
-	ds_file.block[0].alloced = 0;
-	/*may have to initialize entire ds_counts array to all 0*/
+
+	fseek(fp, 0, SEEK_SET);
 
 	/*Write the header to the file (table of contents)*/
-	if(fwrite(ds_file.block, sizeof(struct  ds_blocks_struct), 1, fp) != 1){
+	if(fwrite(ds_file.block, sizeof(ds_file.block), 1, fp) != 1){
 		fclose(fp);
 		return -1;
 	}
 
 	/*Write null characters*/
-	for(i = 0; i < size + sizeof(struct ds_blocks_struct); i++){
+	for(i = 0; i < size; i++){
 		if(fwrite(&buff, sizeof(char), 1, fp) != 1){
 			fclose(fp);
 			return -1;
@@ -50,7 +55,7 @@ int ds_init(char *filename){
 		return -2;
 	}
 	/*Reads in the header or table of contents*/
-	if(fread(ds_file.block, sizeof(struct ds_blocks_struct), 1, ds_file.fp) != 1){
+	if(fread(ds_file.block, sizeof(ds_file.block), 1, ds_file.fp) != 1){
 		fclose(ds_file.fp);
 		return -1;
 	}
@@ -78,13 +83,14 @@ long ds_malloc(long amount){
 	}
 	/*Locates next available block and marks it as such*/
 	for(i = 0; i < MAX_BLOCKS; i++){
-		if(ds_file.block[i].length == 0){
+		if((ds_file.block[i]).length == 0){
 			/*Setting up next block*/
 			ds_file.block[i].start = temp.start + amount;
 			ds_file.block[i].length = temp.length - amount;
 			ds_file.block[i].alloced = 0;
 			/*Sets return value*/
 			blockFound = temp.start;
+			break;
 		}
 	}
 	return blockFound;
@@ -125,7 +131,8 @@ long ds_write(long start, void *ptr, long bytes){
 
 int ds_finish(){
 	/*Write the header to the file (table of contents)*/
-	if(fwrite(ds_file.block, sizeof(struct ds_blocks_struct), 1, ds_file.fp) != 1){
+	fseek(ds_file.fp, 0, SEEK_SET);
+	if(fwrite(ds_file.block, sizeof(ds_file.block), 1, ds_file.fp) != 1){
 		fclose(ds_file.fp);
 		return -1;
 	}
@@ -136,9 +143,9 @@ int ds_finish(){
 	return 0;
 }
 
-void seekPos(int pos){
+void seekPos(long pos){
 	/*Moves the file pointer to the first position*/
-	fseek(ds_file.fp, sizeof(struct ds_blocks_struct), SEEK_SET);
+	fseek(ds_file.fp, sizeof(ds_file.block), SEEK_SET);
 	/*Moves file pointer to position given*/
 	fseek(ds_file.fp, pos, SEEK_CUR);
 	return;

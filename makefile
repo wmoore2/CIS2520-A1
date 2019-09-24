@@ -17,5 +17,14 @@ ds_memory.o: ds_memory.c ds_memory.h
 clean:
 	rm bin/*
 
-test: ds_memory.o ds_array.o ds_memory.h ds_array.h
-	$(CC) $(CFLAGS) bin/ds_memory.o bin/ds_array.o -o bin/test
+testArray: ds_memory.o ds_array.o ds_memory.h ds_array.h
+	$(CC) $(CFLAGS) bin/ds_memory.o bin/ds_array.o -o bin/array
+
+testList: ds_memory.o ds_list.o ds_memory.h ds_list.h
+	$(CC) $(CFLAGS) bin/ds_memory.o bin/ds_list.o -o bin/list
+
+list: testList
+	./bin/list
+
+array: testArray
+	./bin/array

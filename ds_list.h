@@ -7,12 +7,12 @@ wmoore02@uoguelph.ca
 #include<stdio.h>
 #include<stdlib.h>
 
-struct ds_list_item_struct(){
+struct ds_list_item_struct{
 	int item;
 	long next;
 };
 
-void ds_create_list();
+int ds_create_list();
 
 int ds_init_list();
 
@@ -29,3 +29,5 @@ int ds_find(int target);
 int ds_read_elements(char* filename);
 
 int ds_finish_list();
+
+struct ds_list_item_struct* ds_read_list(struct ds_list_item_struct* ptr, int index, long* prev);
