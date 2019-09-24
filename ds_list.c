@@ -6,24 +6,38 @@ wmoore02@uoguelph.ca
 
 #include"ds_list.h"
 
-int main(){
-    struct ds_list_item_struct temp = {};
-    long pos, elem = 0;
-    int i = 0;
-    ds_create("list.bin", sizeof(struct ds_list_item_struct) * MAX_BLOCKS);
-    printf("Create List: %d\n", ds_create_list());
-    printf("Init List: %d\n", ds_init_list());
-    //printf("Malloc: %ld\n", ds_malloc(sizeof(long)));
-    //printf("Insert: %d\n", ds_insert(120, 0));
-    //printf("Insert: %d\n", ds_insert(143, 1));
-    //ds_read(&temp, sizeof(long), sizeof(struct ds_list_item_struct));
-    //ds_read(&elem, 0, sizeof(long));
-    //ds_read_list(&temp, 0, &pos);
-    //printf("Item: %d  Next: %ld  Pos: %ld\n", temp.item, temp.next, ds_malloc(sizeof(long)));
-    printf("Read_elements: %d\n", ds_read_elements("bin/temp.txt"));
-    ds_finish_list();
-    return 0;
-}
+/*
+// int main(){
+//     struct ds_list_item_struct temp1, temp2, temp3;
+//     long pos, elem = 0;
+//     int i = 0;
+//     ds_create("list.bin", sizeof(struct ds_list_item_struct) * MAX_BLOCKS);
+//     printf("Create List: %d\n", ds_create_list());
+//     printf("Init List: %d\n", ds_init_list());
+//     printf("Insert: %d\n", ds_insert(120, 0));
+//     printf("Insert: %d\n", ds_insert(143, 1));
+//     printf("Insert: %d\n", ds_insert(234, 1));
+//     printf("Insert: %d\n", ds_insert(126, 1));
+//     printf("Insert: %d\n", ds_insert(432, 1));
+//     printf("Insert: %d\n", ds_insert(69, 1));
+//     printf("Replace: %d\n", ds_replace(43, 0));
+//     printf("Swap: %d\n", ds_swap(0, 1));
+//     //ds_read(&temp, sizeof(long), sizeof(struct ds_list_item_struct));
+//     //ds_read(&elem, 0, sizeof(long));
+//     ds_read_list(&temp1, 0, &pos);
+//     ds_read_list(&temp2, 1, &pos);
+//     printf("Find: %d\n", ds_find(43));
+//     ds_delete(1);
+//     printf("First Insert: %d\nSecond Insert: %d\n", temp1.item, temp2.item);
+//     if(ds_read_list(&temp3, 1, &pos) == NULL)
+//         printf("Didn't work\n");
+//     printf("After delete trying to read: %d\n", temp3.item);
+//     //printf("Item: %d  Next: %ld  Pos: %ld\n", temp.item, temp.next, ds_malloc(sizeof(long)));
+//     //printf("Read_elements: %d\n", ds_read_elements("bin/temp.txt"));
+//     ds_finish_list();
+//     return 0;
+// }
+*/
 
 int ds_create_list(){
     long toWrite = -1;
@@ -39,13 +53,16 @@ int ds_create_list(){
     /*Closes file and prints reads/writes*/
     if(ds_finish() != 0)
         return -1;
+
     return 0;
 }
 
 int ds_init_list(){
     /*Open file*/
-    if(ds_init("list.bin") != 0)
+    if(ds_init("list.bin") != 0){
         return -1;
+    }
+
 	return 0;
 }
 
@@ -64,8 +81,9 @@ int ds_replace(int value, long index){
     /*Sets new value*/
     temp.item = value;
     /*Writes entire element*/
-    if(ds_write(elemPos + sizeof(long), &temp, sizeof(struct ds_list_item_struct)) != 0)
+    if(ds_write(elemPos, &temp, sizeof(struct ds_list_item_struct)) != 0){
         return -1;
+    }
 
 	return 0;
 }
@@ -170,23 +188,23 @@ int ds_swap(long index1, long index2){
     /*Write elements back into file*/
     if(ds_write(elemPos1, &elem1, sizeof(struct ds_list_item_struct)) != 0)
         return -1;
-    if(ds_write(elemPos2, &elem2, sizeof(struct ds_list_item_struct)) != 0)
+    if(ds_write(elemPos2, &elem2, sizeof(struct ds_list_item_struct)) != 0){
         return -1;
+    }
 	return 0;
 }
 
 int ds_find(int target){
-    long next;
+    long next = 0;
     int index = 0;
     struct ds_list_item_struct elem;
-
     /*Read first long to see first entry location*/
     if(*(int*)ds_read(&next, 0, sizeof(long)) != next)
         return -1;
 
     while(1){
         /*Read in element*/
-        if((struct ds_list_item_struct*)ds_read(&elem, next + sizeof(long), sizeof(struct ds_list_item_struct)) != &elem)
+        if((struct ds_list_item_struct*)ds_read(&elem, next, sizeof(struct ds_list_item_struct)) != &elem)
             return -1;
         /*Checks for correct value*/
         if(elem.item == target)
@@ -237,14 +255,14 @@ struct ds_list_item_struct* ds_read_list(struct ds_list_item_struct* ptr, int in
             return NULL;
         /*Change next position to check, set the prev value*/
         *prev = next;
-        next = (*ptr).next;
-        if((*ptr).next == 0)
+        next = ptr->next;
+        if(ptr->next == 0)
             return NULL;
         /*Check if it is the correct item*/
         if(i == index)
             return ptr;
         /*Checks for index being out of bounds*/
-        if((*ptr).next == -1)
+        if(ptr->next == -1)
             return NULL;
     }
     /*Returns NULL if nothing is found*/

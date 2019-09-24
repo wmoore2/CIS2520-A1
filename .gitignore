@@ -2,4 +2,6 @@ bin/*
 *.bin
 !*.c
 !*.h
-makefile
+makefile.*
+arrayMain.c
+listMain.c

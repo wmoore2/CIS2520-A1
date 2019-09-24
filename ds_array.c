@@ -8,22 +8,23 @@ wmoore02@uoguelph.ca
 
 long elements = 0;
 
-// int main(){
-// 	int i = 0, temp = 0;
-// 	ds_create("array.bin", sizeof(int) * MAX_ELEMENTS + sizeof(long));
-// 	ds_create_array();
-// 	ds_init_array();
-// 	ds_read_elements("bin/temp.txt");
-// 	ds_swap(0, 1);
-// 	printf("%ld\n", ds_find(7));
-// 	printf("%d\n", ds_delete(0));
-// 	for (i = 0; i < elements; ++i) {	
-// 		printf("%d\n", ds_read_array(&temp, i));
-// 	}
-// 	ds_finish_array();
-// 	return 0;
-// }
-
+/*
+int main(){
+	int i = 0, temp = 0;
+	ds_create("array.bin", sizeof(int) * MAX_ELEMENTS + sizeof(long));
+	ds_create_array();
+	ds_init_array();
+	ds_read_elements("bin/temp.txt");
+	ds_swap(0, 1);
+	printf("%ld\n", ds_find(7));
+	printf("%d\n", ds_delete(0));
+	for (i = 0; i < elements; ++i) {	
+		printf("%d\n", ds_read_array(&temp, i));
+	}
+	ds_finish_array();
+	return 0;
+}
+*/
 int ds_create_array(){
 	/*initiates a file of the proper size*/
 	if(ds_init("array.bin") != 0)
@@ -34,8 +35,10 @@ int ds_create_array(){
 	if(ds_write(0, &elements, sizeof(long)) != 0)
 		return -1;
 	/*Allocate data for the rest of the array*/
-	ds_malloc(sizeof(int) * (MAX_ELEMENTS));
-	ds_finish();
+	if(ds_malloc(sizeof(int) * (MAX_ELEMENTS)) == -1)
+		return -1;
+	if(ds_finish() != 0)
+		return -1;
 	return 0;
 }
 
