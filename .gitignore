@@ -2,6 +2,7 @@ bin/*
 *.bin
 !*.c
 !*.h
+tests/*
 makefile.*
 arrayMain.c
 listMain.c

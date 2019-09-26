@@ -6,6 +6,7 @@ wmoore02@uoguelph.ca
 
 #include<stdio.h>
 #include<stdlib.h>
+#include <time.h>
 
 #define MAX_BLOCKS 4096
 
@@ -40,3 +41,7 @@ long ds_write(long start, void *ptr, long bytes);
 int ds_finish();
 
 void seekPos(long pos);
+
+int getReads();
+
+int getWrites();

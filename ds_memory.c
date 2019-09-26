@@ -150,3 +150,11 @@ void seekPos(long pos){
 	fseek(ds_file.fp, pos, SEEK_CUR);
 	return;
 }
+
+int getReads(){
+	return ds_counts.reads;
+}
+
+int getWrites(){
+	return ds_counts.writes;
+}

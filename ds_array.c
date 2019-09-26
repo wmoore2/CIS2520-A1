@@ -6,7 +6,7 @@ wmoore02@uoguelph.ca
 
 #include "ds_array.h"
 
-long elements = 0;
+long elements;
 
 /*
 int main(){
@@ -26,6 +26,7 @@ int main(){
 }
 */
 int ds_create_array(){
+	elements = 0;
 	/*initiates a file of the proper size*/
 	if(ds_init("array.bin") != 0)
 		return -1;
@@ -62,25 +63,25 @@ int ds_replace(int value, long index){
 }
 
 int ds_insert(int value, long index){
-	int temp;
-	if(index >= MAX_ELEMENTS || index < 0 || elements == MAX_ELEMENTS - 1 || index > elements)
+	int temp = 0;
+	if(index >= MAX_ELEMENTS || index < 0 || elements == (MAX_ELEMENTS - 1) || index > elements)
 		return -1;
 	if(index != elements){
 		/*Read/write value and recurse*/
 		/*Read in value stored at index*/
 		if(ds_read_array(&temp, index) != temp)
-			return -1;
+			return -2;
 		/*Write value*/
 		if(ds_replace(value, index) != 0)
-			return -1;
+			return -3;
 
-		return ds_insert(temp, index++);
+		return ds_insert(temp, ++index);
 		
 	} else {
 		/*Final read/write and exit here*/
-		if(ds_replace(value, index) != 0)
-			return -1;
-
+		if(ds_replace(value, index) != 0){
+			return -4;
+		}
 		elements++;
 	}
 	return 0;
@@ -146,11 +147,15 @@ int ds_read_elements(char *filename){
 	/*Loops through entire file*/
 	while(fscanf(fp, "%d", &temp) != EOF){
 		/*Inserts read in character into array*/
-		if(ds_insert(temp, index) != 0)
-			return -1;
+		if(ds_insert(temp, index) != 0){
+			fclose(fp);
+			return -2;
+		}
 		index++;
-		if(index == MAX_ELEMENTS)
-			return -1;
+		if(index == MAX_ELEMENTS){
+			fclose(fp);
+			return -3;
+		}
 	}
 	fclose(fp);
 	return 0;
