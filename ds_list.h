@@ -3,6 +3,8 @@ William Moore
 1061752
 wmoore02@uoguelph.ca
 */
+#ifndef DS_LIST_H
+#define DS_LIST_H
 #include"ds_memory.h"
 #include<stdio.h>
 #include<stdlib.h>
@@ -31,3 +33,4 @@ int ds_read_elements(char* filename);
 int ds_finish_list();
 
 struct ds_list_item_struct* ds_read_list(struct ds_list_item_struct* ptr, int index, long* prev);
+#endif

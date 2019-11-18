@@ -4,6 +4,8 @@ William Moore
 wmoore02@uoguelph.ca
 */
 
+#ifndef DS_MEMORY_H
+#define DS_MEMORY_H
 #include<stdio.h>
 #include<stdlib.h>
 #include <time.h>
@@ -45,3 +47,4 @@ void seekPos(long pos);
 int getReads();
 
 int getWrites();
+#endif
